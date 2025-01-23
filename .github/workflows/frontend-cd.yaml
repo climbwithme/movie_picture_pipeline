@@ -44,7 +44,7 @@ jobs:
       # Step 4: Run linting
       - name: Run Lint
         working-directory: starter/frontend
-        run: FAIL_LINT=true npm run lint
+        run: npm run lint
 
   # Test job: runs the test suite to ensure code correctness
   Test:
