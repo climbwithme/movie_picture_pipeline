@@ -1,10 +1,10 @@
 name: Backend Continuous Deployment
 
 on:
-  # Triggers workflow manually or on pull request events
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
+      # Trigger only for pushes to the 'main' branch
       - main
     paths:
       # Runs only when code in the backend directory changes

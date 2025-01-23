@@ -2,13 +2,10 @@ name: Frontend Continuous Deployment
 
 # Workflow triggers
 on:
-  # Allows the workflow to be triggered manually
   workflow_dispatch:
-  
-  # Automatically triggers the workflow on pull requests
-  pull_request:
+  push:
     branches:
-      # Trigger only for pull requests targeting the 'main' branch
+      # Trigger only for pushes to the 'main' branch
       - main
     paths:
       # Trigger only if changes are made in the frontend directory
