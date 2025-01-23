@@ -44,7 +44,7 @@ jobs:
       # Step 4: Run linting
       - name: Run Lint
         working-directory: starter/frontend
-        run: npm run lint
+        run: FAIL_LINT=true npm run lint
 
   # Test job: runs the test suite to ensure code correctness
   Test:
@@ -71,7 +71,7 @@ jobs:
       # Step 4: Run tests
       - name: Run Tests
         working-directory: starter/frontend
-        run: FAIL_TEST=true CI=true npm test
+        run: CI=true npm test
 
   # Build job: builds the Docker image and runs the application
   Build:
