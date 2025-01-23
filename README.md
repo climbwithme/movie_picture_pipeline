@@ -40,7 +40,7 @@
 
 - **Frontend - Failed Test:** [https://github.com/climbwithme/movie_picture_pipeline/actions/runs/12936363289](https://github.com/climbwithme/movie_picture_pipeline/actions/runs/12936363289)
 
-![4_F_F_Lint](evidences/4_F_F_Lint.png)
+![4_F_F_Test](evidences/4_F_F_Test.png)
 
 
 ### 5. Environment Configuration:
