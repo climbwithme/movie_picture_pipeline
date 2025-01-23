@@ -1,0 +1,95 @@
+name: Frontend Continuous Integration
+
+# Workflow triggers
+on:
+  # Allows the workflow to be triggered manually
+  workflow_dispatch:
+  
+  # Automatically triggers the workflow on pull requests
+  pull_request:
+    branches:
+      # Trigger only for pull requests targeting the 'main' branch
+      - main
+    paths:
+      # Trigger only if changes are made in the frontend directory
+      - starter/frontend/**
+
+jobs:
+  # Linting job: checks for linting issues in the codebase
+  Linting:
+    runs-on: ubuntu-latest
+    # Removed the invalid 'environment' field from the earlier version
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Check the Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js (version 18) with caching
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: starter/frontend/package-lock.json
+
+      # Step 3: Install dependencies using npm
+      - name: Install Dependencies
+        working-directory: starter/frontend
+        run: npm ci
+
+      # Step 4: Run linting
+      - name: Run Lint
+        run: cd starter/frontend && npm run lint
+
+  # Test job: runs the test suite to ensure code correctness
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Check the Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js (version 18) with caching
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: starter/frontend/package-lock.json
+
+      # Step 3: Install dependencies using npm
+      - name: Install Dependencies
+        working-directory: starter/frontend
+        run: npm ci
+
+      # Step 4: Run tests
+      - name: Run Tests
+        run: cd starter/frontend && CI=true npm test
+
+  # Build job: builds the Docker image and runs the application
+  Build:
+    # Build runs only after Linting and Test jobs succeed
+    needs: [Linting, Test]
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Check the Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js (version 18) with caching
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: starter/frontend/package-lock.json
+
+      # Step 3: Build the Docker image and run the container
+      - name: Build and Run Docker Image
+        run: |
+          cd starter/frontend
+          docker build --build-arg REACT_APP_MOVIE_API_URL=${{ vars.REACT_APP_MOVIE_API_URL }} --tag mp-frontend:latest .
+          docker run --name mp-frontend -p 3000:3000 -d mp-frontend
