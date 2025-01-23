@@ -14,7 +14,6 @@ jobs:
   # Linting job: ensures the code adheres to ESLint rules
   Linting:
     runs-on: ubuntu-latest
-    # Removed the invalid 'environment' field from the earlier version
 
     steps:
       # Step 1: Checkout the repository

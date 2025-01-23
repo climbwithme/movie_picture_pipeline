@@ -18,7 +18,6 @@ jobs:
   # Linting job: checks for linting issues in the codebase
   Linting:
     runs-on: ubuntu-latest
-    # Removed the invalid 'environment' field from the earlier version
 
     steps:
       # Step 1: Checkout the repository
@@ -73,6 +72,7 @@ jobs:
     # Build runs only after Linting and Test jobs succeed
     needs: [Linting, Test]
     runs-on: ubuntu-latest
+    environment: Staging
 
     steps:
       # Step 1: Checkout the repository
